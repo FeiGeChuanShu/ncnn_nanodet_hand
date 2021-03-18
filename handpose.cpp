@@ -28,7 +28,7 @@ static int detect(const cv::Mat& bgr, std::vector<cv::Point2f>& keypoints)
 
     posenet.opt.use_vulkan_compute = true;
 
-    // the ncnn model https://github.com/nihui/ncnn-assets/tree/master/models
+    // the ncnn model https://github.com/FeiGeChuanShu/ncnn_nanodet_hand
     posenet.load_param("handpose.param");
     posenet.load_model("handpose.bin");
 
