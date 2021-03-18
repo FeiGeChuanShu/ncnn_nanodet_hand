@@ -5,7 +5,7 @@ ncnn_nanodet_hand
 PS:由于数据集质量不理想，且自己水平有限所以实际效果可能较差，自己做着玩的.  
 ![image](https://github.com/FeiGeChuanShu/ncnn_nanodet_hand/blob/main/result.jpg)  
 Android上的效果可以看一下视频，总之ncnn和nanodet棒极了！  
-https://www.bilibili.com/video/BV1Uh411Q7Rq
+https://www.bilibili.com/video/BV1Uh411Q7Rq  
 Reference：
 https://github.com/nihui/ncnn-android-nanodet  
 https://github.com/Tencent/ncnn  
