@@ -5,8 +5,8 @@ ncnn_nanodet_hand
 4.在nihui大佬的ncnn-android-nanodet项目基础上,去掉了其他模型只保留了检测手和手势的.  
 PS:由于数据集质量不理想，且自己水平有限所以实际效果可能较差，自己做着玩的.  
 __TODO__：  
-1.scrfd/yolov5 hand detection  
-2.better performance handpose model  
+__1.scrfd/yolov5 hand detection__  
+__2.better performance handpose model__  
 ![image](https://github.com/FeiGeChuanShu/ncnn_nanodet_hand/blob/main/result.jpg)  
 Android上的效果可以看一下视频，总之ncnn和nanodet棒极了！    
 https://www.bilibili.com/video/BV1Uh411Q7Rq  
