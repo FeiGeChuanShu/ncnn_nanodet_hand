@@ -321,11 +321,15 @@ int NanoDet::detect(const cv::Mat& rgb, std::vector<Object>& objects, float prob
         w = w * scale;
     }
 
+#if defined(_WIN32)
+    ncnn::Mat in = ncnn::Mat::from_pixels_resize(rgb.data, ncnn::Mat::PIXEL_RGB, width, height, w, h);
+#elif defined(__ANDROID__)
     ncnn::Mat in = ncnn::Mat::from_pixels_resize(rgb.data, ncnn::Mat::PIXEL_RGB2BGR, width, height, w, h);
-
+#endif
     // pad to target_size rectangle
-    int wpad = 320-w;//(w + 31) / 32 * 32 - w;
-    int hpad = 320-h;//(h + 31) / 32 * 32 - h;
+    int wpad = target_size - w;//(w + 31) / 32 * 32 - w;
+    int hpad = target_size - h;//(h + 31) / 32 * 32 - h;
+    
     ncnn::Mat in_pad;
     ncnn::copy_make_border(in, in_pad, hpad / 2, hpad - hpad / 2, wpad / 2, wpad - wpad / 2, ncnn::BORDER_CONSTANT, 0.f);
 
