@@ -1,6 +1,6 @@
 # ncnn-android-nanodet
 
-The NanoDet object detection
+The NanoDet hand detection demo
 
 This is a sample ncnn android project, it depends on ncnn library and opencv
 
@@ -34,6 +34,4 @@ https://github.com/nihui/opencv-mobile
 * Most small models run slower on GPU than on CPU, this is common
 * FPS may be lower in dark environment because of longer camera exposure time
 
-## screenshot
-![](screenshot.jpg)
 
