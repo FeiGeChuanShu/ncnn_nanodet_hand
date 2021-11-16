@@ -2,12 +2,11 @@
 a Android demo of hand detect and pose infer by ncnn  
 
 ### hand detect model    
-#### 1.nanodet  
-#### 2.yolox 
-
+1.nanodet  
+2.yolox 
 ### hand pose model  
-#### 1.pfld  
-#### 2.mediapipe hand  
+1.pfld  
+2.mediapipe hand  
 
 ![](multi_hand.gif) 
 ![](yolox_hand.gif)  
