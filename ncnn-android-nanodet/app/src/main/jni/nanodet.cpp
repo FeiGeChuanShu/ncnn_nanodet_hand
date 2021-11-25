@@ -283,10 +283,8 @@ int NanoDet::load(AAssetManager* mgr, const char* modeltype, int _target_size, c
     //__android_log_print(ANDROID_LOG_WARN, "ncnn", "load %s,%s", parampath,modelpath);
     nanodet.load_param(mgr, parampath);
     nanodet.load_model(mgr, modelpath);
-    handpt.load_param(mgr,"handpose.param");
-    handpt.load_model(mgr,"handpose.bin");
-
-
+    handpt.load_param(mgr,"hand_lite-op.param");
+    handpt.load_model(mgr,"hand_lite-op.bin");
 
     target_size = _target_size;
     mean_vals[0] = _mean_vals[0];
@@ -416,6 +414,8 @@ int NanoDet::detect(const cv::Mat& rgb, std::vector<Object>& objects, float prob
             //__android_log_print(ANDROID_LOG_WARN, "ncnn","rect :%f,%f,%f,%f",objects[i].rect.x,objects[i].rect.y,objects[i].rect.width,objects[i].rect.height);
 
             //detect pts
+            //pfld
+            /*
             cv::Mat roi_image = rgb(cv::Rect(xx,yy,ww,hh)).clone();
             ncnn::Mat ncnn_in = ncnn::Mat::from_pixels_resize(roi_image.data,ncnn::Mat::PIXEL_RGB2BGR, roi_image.cols, roi_image.rows,224,224);
             ncnn_in.substract_mean_normalize(meanVals, normVals);
@@ -434,6 +434,51 @@ int NanoDet::detect(const cv::Mat& rgb, std::vector<Object>& objects, float prob
                     objects[i].pts.push_back(cv::Point2f(pt_x + objects[i].rect.x, pt_y + objects[i].rect.y));
 
                 }
+            }
+            */
+            cv::Mat input = rgb(cv::Rect(xx,yy,ww,hh)).clone();
+            int target_size = 224;
+            int w = input.cols;
+            int h = input.rows;
+            float scale = 1.f;
+            if (w > h)
+            {
+                scale = (float)target_size / w;
+                w = target_size;
+                h = h * scale;
+            }
+            else
+            {
+                scale = (float)target_size / h;
+                h = target_size;
+                w = w * scale;
+            }
+
+            ncnn::Mat in = ncnn::Mat::from_pixels_resize(input.data, ncnn::Mat::PIXEL_RGB, input.cols, input.rows, w, h);
+            int wpad = target_size - w;
+            int hpad = target_size - h;
+            ncnn::Mat in_pad;
+            ncnn::copy_make_border(in, in_pad, hpad / 2, hpad - hpad / 2, wpad / 2, wpad - wpad / 2, ncnn::BORDER_CONSTANT, 0.f);
+
+            const float norm_vals[3] = { 1 / 255.f, 1 / 255.f, 1 / 255.f };
+            in_pad.substract_mean_normalize(0, norm_vals);
+            ncnn::Mat points,score;
+            {
+                ncnn::Extractor ex = handpt.create_extractor();
+                ex.input("input", in_pad);
+                ex.extract("points", points);
+                ex.extract("score",score);
+            }
+
+            float* points_data = (float*)points.data;
+
+            for (int j = 0; j < 21; j++)
+            {
+                cv::Point2f pt;
+                pt.x = (points_data[j * 3] - (wpad / 2)) / scale + (float)xx;
+                pt.y = (points_data[j * 3 + 1]- (hpad / 2)) / scale + (float)yy;
+
+                objects[i].pts.push_back(pt);
             }
         }
 
