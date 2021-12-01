@@ -1,6 +1,6 @@
 ## ncnn_Android_hand  
 a Android demo of hand detect and pose infer by ncnn  
-
+A new mediapipe-hand demo in this place [new demo](https://github.com/FeiGeChuanShu/ncnn-Android-mediapipe_hand)  
 ### hand detect model    
 1.nanodet  
 2.yolox 
